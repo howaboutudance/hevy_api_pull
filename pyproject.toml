@@ -11,6 +11,8 @@ requires-python = ">=3.12"
 license = "Apache-2.0"
 dependencies = [
     "dynaconf",
+    "pymongo",
+    "httpx"
 ]
 
 [dependency-groups]
@@ -45,6 +47,9 @@ sources = ["src"]
 
 [tool.pytest.ini_options]
 asyncio_default_fixture_loop_scope = "function"
+markers = [
+    "integration: mark test as integration",
+]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"
@@ -65,7 +70,7 @@ exclude_also = [
 
 [tool.tox]
 requires = ["tox>=4.21"]
-env_list = ["py313", "py312", "lint", "format"]
+env_list = ["py313", "py312", "intg", "lint", "format"]
 
 [tool.tox.env_run_base]
 dependency_groups = ["dev", "testing"] 
@@ -74,6 +79,18 @@ commands = [[
     "-v",
     "--cov=app",
     "--cov-report=term-missing", 
+    "-m not integration",
+    { replace = "posargs", extend = true }
+]]
+
+[tool.tox.env.intg]
+dependency_groups = ["dev", "testing"] 
+commands = [[
+    "pytest",
+    "-v",
+    "--cov=app",
+    "--cov-report=term-missing", 
+    "-m integration",
     { replace = "posargs", extend = true }
 ]]
 

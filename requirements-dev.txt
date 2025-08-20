@@ -9,6 +9,7 @@ wheel
 #
 # until pip adds support for dependency groups, we use the
 # append any dependencies below for testing and development.
+pytest ~= 7.0 # pytest is a testing framework
 tox >= 4.21 # tox is a task runner
 tox-pyenv-redux # tox plugin for pyenv
 ipython # ipython is a REPL for Python

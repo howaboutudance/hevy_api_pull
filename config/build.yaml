@@ -1,0 +1,6 @@
+mongodb:
+  username: admin
+  host: "mongodb_pod"
+hevy_api:
+  url: "https://api.hevyapp.com"
+  version: "v1"
