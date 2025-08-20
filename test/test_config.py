@@ -1,10 +1,6 @@
 """Tests for app.config module."""
 
 import os
-from pathlib import Path
-from unittest import mock
-
-import pytest
 
 from app.config import ENV, settings
 

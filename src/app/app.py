@@ -1,0 +1,1 @@
+"""Main applicatiuon module."""
