@@ -1,0 +1,7 @@
+log_level: debug
+mongodb:
+  username: admin
+  host: "localhost:27017"
+hevy_api:
+  url: "https://api.hevyapp.com"
+  version: "v1"
