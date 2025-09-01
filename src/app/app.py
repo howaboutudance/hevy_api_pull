@@ -1,4 +1,4 @@
-"""Main applicatiuon module."""
+"""Main application module."""
 
 import logging
 from typing import TypeVar
