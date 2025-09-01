@@ -36,14 +36,14 @@ async def pull_all_workouts(page_size: int = 5):
             data = await _pull_workouts_page(current_page, page_size)
         except httpx.HTTPError as e:
             _log.error("Error pulling workouts: %s", e)
-            break
+            raise e
         workouts = data.get("workouts", [])
         workout_data.extend(workouts)
         current_page += 1
         # cover pagination cases
         # - the events array is smaller than the page size
         # - current_page is equal to page_count
-        if len(workouts) < data.get("page_size", 0) or current_page == data.get("page_count", 0):
+        if len(workouts) < page_size or data.get("page_count", 0) < data.get("page", 0):
             break
     _log.info("Finished pulling workouts at %d pages", current_page)
     await truncate_and_store_workouts(workout_data)
