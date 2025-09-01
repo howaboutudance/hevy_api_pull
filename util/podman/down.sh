@@ -8,10 +8,6 @@
 podman stop mongodb_server
 podman rm mongodb_server
 
-# stop and remove mongo express server
-podman stop mongo_express_server
-podman rm mongo_express_server
-
 # remove the mongodb pod
 podman pod rm mongodb_pod
 
