@@ -12,7 +12,17 @@ license = "Apache-2.0"
 dependencies = [
     "dynaconf",
     "pymongo",
-    "httpx"
+    "httpx",
+    "uvicorn",
+    "fastapi",
+    "pydantic"
+]
+
+ # to allow an optional AWS Lambda deployment
+ # package
+[project.optional-dependencies]
+aws_lambda = [
+    "mangum"
 ]
 
 [dependency-groups]
@@ -62,10 +72,11 @@ omit = [
 
 [tool.coverage.report]
 exclude_lines = [
-    "^/s*/././."
+    "^/s*/././.",
+    "handler = Mangum(subscribe_app)"
 ]
 exclude_also = [
-    "if __name__ == .__main__."
+    "if __name__ == .__main__.",
 ]
 
 [tool.tox]
