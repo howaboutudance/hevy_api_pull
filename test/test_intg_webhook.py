@@ -26,7 +26,7 @@ def socket_port_fixture():
 
 @pytest.fixture(scope="session")
 def app_server_fixture(socket_port_fixture):
-    """A fixture to run a FastAPI server on a seperate thread."""
+    """A fixture to run a FastAPI server on a separate thread."""
     url = f"http://{LOCAL_IP}:{socket_port_fixture}"
     config = uvicorn.Config(subscribe_app, host=LOCAL_IP, port=socket_port_fixture, log_level="info")
     server = uvicorn.Server(config=config)
