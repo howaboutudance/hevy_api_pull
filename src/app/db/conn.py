@@ -9,7 +9,7 @@ from app.config import settings
 _log = logging.getLogger(__name__)
 
 
-class Mongo_Conn:
+class MongoConnection:
     """MongoDB connection async context manager."""
 
     _connection_str = f"mongodb://{settings.mongodb.username}:{settings.mongodb.password}@{settings.mongodb.host}"

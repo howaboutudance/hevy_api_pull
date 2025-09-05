@@ -12,7 +12,17 @@ license = "Apache-2.0"
 dependencies = [
     "dynaconf",
     "pymongo",
-    "httpx"
+    "httpx",
+    "uvicorn",
+    "fastapi",
+    "pydantic"
+]
+
+ # to allow a optional AWS Lambda deployment
+ # package
+[project.optional-dependencies]
+aws_lambda = [
+    "mangum"
 ]
 
 [dependency-groups]
