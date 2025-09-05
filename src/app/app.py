@@ -4,6 +4,7 @@ import logging
 
 from app.db.conn import MongoConnection
 from app.db.data import HevyApiRepository
+from app.type import JSONType
 
 _log = logging.getLogger(__name__)
 
@@ -16,7 +17,7 @@ async def pull_all_workouts(page_size: int = 5):
     await truncate_and_store_workouts(workouts)
 
 
-async def truncate_and_store_workouts(workouts: list) -> None:
+async def truncate_and_store_workouts(workouts: list[JSONType]) -> None:
     """Truncate the database and store new workouts.
 
     :param workouts: A list of workout data to store.

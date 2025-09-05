@@ -3,16 +3,13 @@
 import asyncio
 import logging
 from abc import ABC, abstractmethod
-from typing import TypeVar
 
 import httpx
 
 from app.config import settings
+from app.type import JSONType
 
 _log = logging.getLogger(__name__)
-
-# JSONType is a recursive type hint for JSON-compatible data structures
-JSONType = TypeVar("None | bool | int | float | str | tuple | list | dict | JSONType")
 
 
 class AbstractRestfulApiRepository(ABC):
@@ -24,7 +21,7 @@ class AbstractRestfulApiRepository(ABC):
         self._session = httpx.AsyncClient(base_url=self._base_url)
 
     @abstractmethod
-    async def get(self, endpoint: str) -> JSONType:
+    async def get(self, endpoint: str, params: dict) -> JSONType:
         """Get from the API."""
 
     @property
@@ -59,7 +56,7 @@ class HevyApiRepository(AbstractRestfulApiRepository):
         return response.json()
 
     # pull workouts with pagination
-    async def pull_all_workouts(self, page_size: int = 5) -> JSONType:
+    async def pull_all_workouts(self, page_size: int = 5) -> list[JSONType]:
         """Pull all workout data with pagination.
 
         :param page_size: The number of workouts to pull per page.

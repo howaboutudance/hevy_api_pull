@@ -66,8 +66,8 @@ def app_server_fixture(socket_port_fixture):
 #   }
 # }
 # ```
-def test_webhook_endpoiont_recieves_data(app_server_fixture):
-    """Test that the webhook endpoint recieves data."""
+def test_webhook_endpoint_receives_data(app_server_fixture):
+    """Test that the webhook endpoint receives data."""
     data = {
         "id": "00000000-0000-0000-0000-000000000001",
         "payload": {"workoutId": "f1085cdb-32b2-4003-967d-53a3af8eaecb"},

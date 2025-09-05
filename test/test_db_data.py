@@ -5,7 +5,8 @@ from unittest import mock
 import httpx
 import pytest
 
-from app.db.data import AbstractRestfulApiRepository, HevyApiRepository, JSONType
+from app.db.data import AbstractRestfulApiRepository, HevyApiRepository
+from app.type import JSONType
 
 
 @pytest.fixture(scope="function", autouse=True)

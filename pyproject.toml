@@ -18,7 +18,7 @@ dependencies = [
     "pydantic"
 ]
 
- # to allow a optional AWS Lambda deployment
+ # to allow an optional AWS Lambda deployment
  # package
 [project.optional-dependencies]
 aws_lambda = [

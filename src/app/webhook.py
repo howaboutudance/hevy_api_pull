@@ -25,7 +25,7 @@ async def webhook_post_handler(request: fastapi.Request):
 
 # optional AWS Lambda deployment package logic
 try:
-    from mangum import Mangum
+    from mangum import Mangum  # ty: ignore[unresolved-import]
 
     handler = Mangum(subscribe_app)
 except ImportError:

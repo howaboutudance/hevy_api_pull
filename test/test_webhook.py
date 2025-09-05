@@ -1,4 +1,4 @@
-"""Unit tests for webook module."""
+"""Unit tests for app.webhook module."""
 
 import pytest
 from fastapi.testclient import TestClient
