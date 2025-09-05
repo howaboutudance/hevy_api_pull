@@ -1,5 +1,6 @@
 """Repositories for data access."""
 
+import asyncio
 import logging
 from abc import ABC
 from typing import TypeVar
@@ -13,7 +14,7 @@ _log = logging.getLogger(__name__)
 # JSONType is a recursive type hint for JSON-compatible data structures
 JSONType = TypeVar("None | bool | int | float | str | tuple | list | dict | JSONType")
 
-class RestfulApiRepository(ABC):
+class AbstractRestfulApiRepository(ABC):
     """Abstract base class for RESTful API repositories."""
     def __init__(self, base_url: str):
         """Initialize the repository with a base URL."""
@@ -30,10 +31,11 @@ class RestfulApiRepository(ABC):
         """Check if the repository is ready."""
         if self._session.is_closed:
             return False
-        response = self._session.get("/")
+        response = asyncio.run(self._session.get("/"))
         return response.status_code == 200
 
-class HevyApiRepository(RestfulApiRepository):
+
+class HevyApiRepository(AbstractRestfulApiRepository):
     """Repository for Hevy API."""
     _BASE_URL = f"{settings.hevy_api.url}/{settings.hevy_api.version}"
     _API_KEY = settings.hevy_api.key
