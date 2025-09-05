@@ -1,0 +1,7 @@
+log_level: debug
+mongodb:
+  username: admin
+  host: "mongodb.foo:9999"
+hevy_api:
+  url: "https://api.fakeapi.bar"
+  version: "v1"
