@@ -1,4 +1,5 @@
 """Integration tests for api client module."""
+
 import asyncio
 import socket
 import threading
@@ -21,6 +22,7 @@ def socket_port_fixture():
     port = sock.getsockname()[1]
     sock.close()
     return port
+
 
 @pytest.fixture(scope="session")
 def app_server_fixture(socket_port_fixture):
@@ -62,15 +64,13 @@ def app_server_fixture(socket_port_fixture):
 #   "payload": {
 #     "workoutId": "f1085cdb-32b2-4003-967d-53a3af8eaecb"
 #   }
-# } 
+# }
 # ```
 def test_webhook_endpoiont_recieves_data(app_server_fixture):
     """Test that the webhook endpoint recieves data."""
     data = {
         "id": "00000000-0000-0000-0000-000000000001",
-        "payload": {
-            "workoutId": "f1085cdb-32b2-4003-967d-53a3af8eaecb"
-        }
+        "payload": {"workoutId": "f1085cdb-32b2-4003-967d-53a3af8eaecb"},
     }
     url = f"{app_server_fixture}/webhook"
 

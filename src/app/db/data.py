@@ -2,7 +2,7 @@
 
 import asyncio
 import logging
-from abc import ABC
+from abc import ABC, abstractmethod
 from typing import TypeVar
 
 import httpx
@@ -14,12 +14,18 @@ _log = logging.getLogger(__name__)
 # JSONType is a recursive type hint for JSON-compatible data structures
 JSONType = TypeVar("None | bool | int | float | str | tuple | list | dict | JSONType")
 
+
 class AbstractRestfulApiRepository(ABC):
     """Abstract base class for RESTful API repositories."""
+
     def __init__(self, base_url: str):
         """Initialize the repository with a base URL."""
         self._base_url = base_url
         self._session = httpx.AsyncClient(base_url=self._base_url)
+
+    @abstractmethod
+    async def get(self, endpoint: str) -> JSONType:
+        """Get from the API."""
 
     @property
     def base_url(self) -> str:
@@ -37,11 +43,20 @@ class AbstractRestfulApiRepository(ABC):
 
 class HevyApiRepository(AbstractRestfulApiRepository):
     """Repository for Hevy API."""
+
     _BASE_URL = f"{settings.hevy_api.url}/{settings.hevy_api.version}"
     _API_KEY = settings.hevy_api.key
+
     def __init__(self):
+        """Initialize the repository with the base URL and API key."""
         super().__init__(self._BASE_URL)
         self._session.headers.update({"api-key": self._API_KEY})
+
+    async def get(self, endpoint: str, params: dict) -> JSONType:
+        """Get from the API."""
+        response = await self._session.get(endpoint, params=params)
+        response.raise_for_status()
+        return response.json()
 
     # pull workouts with pagination
     async def pull_all_workouts(self, page_size: int = 5) -> JSONType:
@@ -58,7 +73,7 @@ class HevyApiRepository(AbstractRestfulApiRepository):
         # pull pages until len(pages) equils page_count field of json response
         while True:
             try:
-                data = await self._pull_workouts_page(current_page, page_size)
+                data = await self.get("/workouts", params={"page": current_page, "pageSize": page_size})
             except httpx.HTTPError as e:
                 _log.error("Error pulling workouts: %s", e)
                 raise e
@@ -72,15 +87,3 @@ class HevyApiRepository(AbstractRestfulApiRepository):
                 break
         _log.info("Finished pulling workouts at %d pages", current_page)
         return workout_data
-
-
-    async def _pull_workouts_page(self, page: int, page_size: int) -> dict[JSONType]:
-        """Pull a single page of workout data.
-
-        :param page: The page number to pull.
-        :param page_size: The number of workouts to pull per page.
-        :return: The JSON response from the API.
-        """
-        response = await self._session.get("/workouts", params={"page": page, "pageSize": page_size})
-        response.raise_for_status()
-        return response.json()

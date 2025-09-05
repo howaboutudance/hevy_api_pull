@@ -9,9 +9,12 @@ _log = logging.getLogger(__name__)
 
 _hevy_api_repo = HevyApiRepository()
 
+
 async def pull_all_workouts(page_size: int = 5):
+    """Wrapper for pulling all workouts."""
     workouts = await _hevy_api_repo.pull_all_workouts(page_size=page_size)
     await truncate_and_store_workouts(workouts)
+
 
 async def truncate_and_store_workouts(workouts: list) -> None:
     """Truncate the database and store new workouts.

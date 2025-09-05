@@ -14,7 +14,6 @@ class MongoConnection:
 
     _connection_str = f"mongodb://{settings.mongodb.username}:{settings.mongodb.password}@{settings.mongodb.host}"
 
-
     def __init__(self, db_name: str):
         """Initialize the database connection."""
         self._db_name = db_name

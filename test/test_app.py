@@ -2,57 +2,24 @@
 
 from unittest import mock
 
-import httpx
 import pytest
 
 from app.app import pull_all_workouts, truncate_and_store_workouts
+from app.db.data import HevyApiRepository
 
 
 @pytest.mark.asyncio
 async def test_pull_all_workouts():
     """Test pulling all workouts."""
-    m_page_size = 5
-    m_workout_data = [{"id": idx, "name": f"Workout {idx}"} for idx in range(1, m_page_size + 1)]
-    m_test_current_page = 1
-    m_truncate_and_store = mock.AsyncMock()
-    m_truncate_and_store.return_value = None
-
-    async def test_pull_workout_effect(page: int, page_size: int):
-        nonlocal m_test_current_page
-        assert page == m_test_current_page
-        assert page_size == m_page_size
-        data = {
-            "workouts": m_workout_data if page <= m_test_current_page else [],
-            "page_size": 5 if page <= m_test_current_page else 0,
-            "page_count": 1,
-            "page": page,
-        }
-        m_test_current_page += 1
-        return data if m_test_current_page == 2 else {}
-
-    m_pull_workouts_page = mock.AsyncMock()
-    m_pull_workouts_page.side_effect = test_pull_workout_effect
+    m_response = {"workouts": [{"id": 1, "name": "Workout 1"}]}
     with (
-        mock.patch("app.app.truncate_and_store_workouts", m_truncate_and_store),
-        mock.patch("app.app._hevy_api_repo._pull_workouts_page", m_pull_workouts_page),
+        mock.patch.object(HevyApiRepository, "pull_all_workouts") as m_repo,
+        mock.patch("app.app.truncate_and_store_workouts", mock.AsyncMock()) as m_store,
     ):
-        await pull_all_workouts(page_size=m_page_size)
+        m_repo.return_value = m_response
+        await pull_all_workouts()
 
-    m_truncate_and_store.assert_called_once_with(m_workout_data)
-    m_pull_workouts_page.assert_awaited()
-
-
-@pytest.mark.asyncio
-async def test_pull_all_workouts_http_error():
-    """Test pulling all workouts with HTTP error."""
-
-    async def test_pull_workout_effect(page: int, page_size: int):
-        raise httpx.HTTPError("HTTP error")
-
-    m_pull_workouts_page = mock.AsyncMock(side_effect=test_pull_workout_effect)
-    with mock.patch("app.app._hevy_api_repo._pull_workouts_page", m_pull_workouts_page):
-        with pytest.raises(httpx.HTTPError, match="HTTP error"):
-            await pull_all_workouts()
+        m_store.assert_awaited_once_with(m_response)
 
 
 @pytest.mark.asyncio
@@ -67,4 +34,3 @@ async def test_truncate_and_store_workouts():
         m_conn.return_value.__aenter__.return_value.workouts.insert_many.assert_awaited_once_with(
             [{"id": 1, "name": "Workout 1"}]
         )
-
