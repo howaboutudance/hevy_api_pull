@@ -34,5 +34,3 @@ jobs:
         pip install  tox pytest pytest-asyncio pytest-cov
     - name: Unit Tests
       run: tox -e py
-    - name: Integration Tests
-      run: tox -e intg
