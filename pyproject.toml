@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "app"
-version = "0.0.1"
+version = "0.2.0"
 description = "A sample project using hatchling"
 authors = [{ name = "Michael Penhallegon", email = "mike@hematite.tech" }]
 requires-python = ">=3.12"
@@ -40,6 +40,7 @@ testing = [
 linting = [
     "ruff~=0.8.0"
 ]
+typing = ["ty"]
 
 [tool.ruff]
 line-length = 120
@@ -81,7 +82,7 @@ exclude_also = [
 
 [tool.tox]
 requires = ["tox>=4.21"]
-env_list = ["py313", "py312", "intg", "lint", "format"]
+env_list = ["py313", "py312", "intg", "lint", "format", "type"]
 
 [tool.tox.env_run_base]
 dependency_groups = ["dev", "testing"] 
@@ -115,4 +116,10 @@ commands = [
 dependency_groups = ["linting"]
 commands = [
     ["ruff", "format", "--check", {replace = "posargs", default = ["src"], extend= true}]
+]
+
+[tool.tox.env.typing]
+dependency_groups = ["typing"]
+commands = [
+    ["ty", {replace = "posargs", default = ["check", "src"], extend= true}]
 ]
