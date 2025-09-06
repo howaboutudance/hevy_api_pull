@@ -21,8 +21,6 @@ jobs:
         src: "./src"
     - name: Formatting
       run: ruff format --check
-    - name: linting
-      run: ruff check
     - name: type check
       run: tox -e typing
   test:
