@@ -26,8 +26,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       ENV: test
-      MONGODB__PASSWORD: ${{ secrets.MONGODB__PASSWORD }}
-      HEVY_API__PASSWORD: ${{ secrets.HEVY_API__PASSWORD }}
+      DYNACONF_MONGODB__PASSWORD: ${{ secrets.MONGODB__PASSWORD }}
+      DYNACONF_HEVY_API__KEY: ${{ secrets.HEVY_API__KEY }}
     steps:
     - uses: actions/checkout@v4
     - name: Install dependencies
