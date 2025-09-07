@@ -86,6 +86,11 @@ env_list = ["py313", "py312", "intg", "lint", "format", "type"]
 
 [tool.tox.env_run_base]
 dependency_groups = ["dev", "testing"] 
+passenv = [
+    "ENV",
+    "DYNACONF_MONGODB__PASSWORD",
+    "DYNACONF_HEVY_API__KEY"
+]
 commands = [[
     "pytest",
     "-v",
