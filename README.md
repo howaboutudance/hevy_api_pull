@@ -42,7 +42,7 @@ There are three different type of configuration files used in this project
 | File name | Purpose |
 | --------- | ------- |
 | `.env`    | Sets the environment name, defining which environment file to use |
-| `config/default.yaml` | Sets configuration settings used across environments or defaults in in lieu of a setting|
+| `config/default.yaml` | Sets configuration settings used across environments or defaults in lieu of a setting|
 | environment name file (i.e. `config/dev.yaml`) | Sets non-secret configuration settings for the environment |
 | `config/.secrets.yaml` | Sets secrets used by the application, included in `.gitignore` |
 
