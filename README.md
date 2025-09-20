@@ -2,7 +2,7 @@
 
 A Python-based utility for:
 
-- pulling workout and exercise data from the [Hevy](https://www.hevyapp.com/) fitness app API.
+- pulling workout and exercise data from the [Hevy][hevy_app] fitness app API.
 - Keeping that data up to date with a webhook subscription and deployment to Google App Engine. (in-progress)
 
 It is Designed for personal analysis, backups, or integration into custom dashboards and data platforms.
@@ -24,6 +24,7 @@ It is Designed for personal analysis, backups, or integration into custom dashbo
 - `pip` for dependencies
 
 ### Setup
+
 ```bash
 git clone https://github.com/howaboutudance/hevy_api_pull.git
 cd hevy_api_pull
@@ -32,10 +33,19 @@ pip install -r requirements-dev.txt
 
 ### Environment Setup
 
-You’ll need an API key from Hevy
 
 This project uses `.env` files and dynaconf to manage setting/configuration.
 To setup a new deployment.
+
+There are three different type of configuration files used in this project
+
+| File name | Purpose |
+| --------- | ------- |
+| `.env`    | Sets the environment name, defining which environment file to use |
+| `config/default.yaml` | Sets configuration settings used across environments or defaults in in lieu of a setting|
+| environment name file (i.e. `config/dev.yaml`) | Sets non-secret configuration settings for the environment |
+| `config/.secrets.yaml` | Sets secrets used by the application, included in `.gitignore` |
+
 
 1. Create a `.env` file to define the environment the code will run in (default is `DEV`)
 
@@ -43,9 +53,9 @@ To setup a new deployment.
     ENV=DEV
     ```
 
-2. Create a enviroment yaml file that matches your environment name (lowercase of the environment name with yaml extension). In this example `dev.yaml`
-3. (Optional for live data pulling) Generate a HEVY API Key
-4. Add the API key to `.secrets.yaml` and define the endpoint for the hevy api in your environment file
+2. Create an environment yaml file that matches your environment name (lowercase of the environment name with yaml extension). In this example `dev.yaml`
+3. (Optional for live data pulling) Generate a Hevy API Key
+4. Add the API key to `.secrets.yaml` and define the endpoint for the Hevy API in your environment file
     - .secrets.yaml
 
     ```yaml
@@ -60,7 +70,7 @@ To setup a new deployment.
     version: "v1"
     ```
 
-5. configure the mongodb credentials in `.secrets.yaml` and your enviroment yaml (lowercase environment nameed yaml file in config folder)
+5. configure the mongodb credentials in `.secrets.yaml` and your environment yaml (lowercase environment named yaml file in config folder)
     - .secrets.yaml
 
     ```yaml
@@ -78,7 +88,16 @@ To setup a new deployment.
 
 ## Development
 
-## Contributing
+### Development Setup + Testing
+
+After cloning the repository and configuring the environment, you should:
+
+- setup a virtualenv and source it
+- install the development dependencies with `pip install -r requirements-dev.txt`
+- start a development mongodb instance `util/podman/up.sh`
+- run the unit test and integration test suites with tox `tox -e py && tox -e intg`
+
+### Contributing
 
 Pull requests welcome! Please:
 
@@ -88,18 +107,11 @@ Pull requests welcome! Please:
 
 - Run the linter, formatter & test suite before submitting (using tox)
 
-## Development Setup + Testing
-
-After cloning the repository and configuring the environment, you should:
-
-- setup a virtualenv and source it
-- install the development dependencies with `pip install -r requirements-dev.txt`
-- start a development mongodb instance `util/podman/up.sh`
-- run the unit test and integration test suites with tox `tox -e py && tox -e intg`
-
 ## Project Status
 
 ⚠️ Early development — expect breaking changes.
+
+Development plans and status is tracked in a [project tracker][project_tracker], including roadmap, and feature planning.
 
 ## License
 
@@ -110,3 +122,6 @@ This project is licensed under the Apache 2.0 License
 Developed by Michael Penhallegon -- @howaboutudance
 
 &copy; 2025 Michael Penhallegon
+
+[hevy_app]: https://www.hevyapp.com/
+[project_tracker]: https://docs.google.com/document/d/1r7EXNHtVTbrEwSOk0VvGy-etlDWeVHa9e7u-y2XCzXk/edit?usp=sharing
