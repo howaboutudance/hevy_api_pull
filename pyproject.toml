@@ -40,7 +40,7 @@ testing = [
 linting = [
     "ruff~=0.12.0"
 ]
-typing = ["ty"]
+typing = ["ty==0.0.1a20"]
 
 [tool.ruff]
 line-length = 120
