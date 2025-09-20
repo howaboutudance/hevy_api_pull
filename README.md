@@ -5,7 +5,7 @@ A Python-based utility for:
 - pulling workout and exercise data from the [Hevy][hevy_app] fitness app API.
 - Keeping that data up to date with a webhook subscription and deployment to Google App Engine. (in-progress)
 
-It is Designed for personal analysis, backups, or integration into custom dashboards and data platforms.
+It is designed for personal analysis, backups, or integration into custom dashboards and data platforms.
 
 ---
 
