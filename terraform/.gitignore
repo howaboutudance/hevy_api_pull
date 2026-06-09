@@ -1,0 +1,11 @@
+# Terraform state and workspace files
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+*.tfvars.json
+crash.log
+crash.*.log
+
+# Lambda build artifacts
+build/
