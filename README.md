@@ -3,7 +3,7 @@
 A Python-based utility for:
 
 - pulling workout and exercise data from the [Hevy][hevy_app] fitness app API.
-- Keeping that data up to date with a webhook subscription and deployment to Google App Engine. (in-progress)
+- Keeping that data up to date with a webhook subscription, deployed to AWS Lambda + API Gateway with Terraform.
 
 It is designed for personal analysis, backups, or integration into custom dashboards and data platforms.
 
@@ -85,6 +85,22 @@ There are three different type of configuration files used in this project
     username: admin
     host: "localhost:27017"
     ```
+
+## Deployment (AWS)
+
+The webhook component deploys to AWS as a Lambda function (FastAPI via
+[Mangum](https://mangum.fastapiexpert.com/)) behind an API Gateway HTTP API,
+managed with Terraform:
+
+```bash
+cd terraform
+terraform init
+terraform apply
+echo "$(terraform output -raw webhook_api_endpoint)/webhook"
+```
+
+See [terraform/README.md](terraform/README.md) for architecture details,
+prerequisites, and configuration variables.
 
 ## Development
 

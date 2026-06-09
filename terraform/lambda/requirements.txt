@@ -1,0 +1,6 @@
+# Dependencies for the webhook Lambda deployment package.
+# The webhook component (app.webhook) only needs the ASGI app and the
+# Lambda adapter; the batch-job dependencies (pymongo, httpx, dynaconf)
+# are intentionally excluded to keep the package small.
+fastapi
+mangum
